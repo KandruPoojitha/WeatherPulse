@@ -16,4 +16,4 @@ RUN pip install --no-cache-dir -r backend/requirements.txt
 COPY backend/ ./backend/
 COPY --from=frontend-build /frontend/dist ./frontend/dist
 EXPOSE 10000
-CMD ["sh", "-c", "uvicorn api:app --app-dir /app/backend --host 0.0.0.0 --port ${PORT:-10000}"]
+CMD ["sh", "-c", "opentelemetry-instrument uvicorn api:app --app-dir /app/backend --host 0.0.0.0 --port ${PORT:-10000}"]
