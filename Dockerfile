@@ -5,6 +5,9 @@ COPY frontend/package*.json ./
 RUN npm ci --no-audit --no-fund
 COPY frontend/ ./
 # /api requests use the same origin as the deployed FastAPI server.
+ARG VITE_SUPABASE_URL
+ARG VITE_SUPABASE_PUBLISHABLE_KEY
+
 RUN npm run build
 
 # Run both the API and the compiled React app with one Python process.
