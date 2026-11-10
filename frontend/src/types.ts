@@ -1,0 +1,5 @@
+export type City = { id?: number; name: string; admin1: string; country: string; latitude: number; longitude: number; timezone?: string };
+export type Current = { observed_at_local: string; temperature_c: number | null; feels_like_c: number | null; humidity_pct: number | null; weather_code: number | null; wind_speed_kmh: number | null; wind_direction_degrees: number | null; pressure_hpa: number | null; is_day: boolean | null };
+export type Hourly = { forecast_for_local: string; temperature_c: number | null; feels_like_c: number | null; humidity_pct: number | null; precip_probability_pct: number | null; weather_code: number | null; wind_speed_kmh: number | null; visibility_m: number | null };
+export type Daily = { forecast_date: string; temp_max_c: number | null; temp_min_c: number | null; weather_code: number | null; precip_prob_pct: number | null; uv_index_max: number | null; sunrise_local: string; sunset_local: string };
+export type WeatherData = { city: City; timezone: string; current: Current; hourly: Hourly[]; daily: Daily[]; ingested_at_utc: string };
