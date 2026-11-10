@@ -1,0 +1,32 @@
+
+name: WeatherPulse Toronto Temperature Alert
+
+on:
+  schedule:
+    - cron: '7,22,37,52 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: weatherpulse-toronto-temperature
+  cancel-in-progress: false
+
+jobs:
+  monitor-temperature:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Check temperature and notify PagerDuty
+        env:
+          PAGERDUTY_ROUTING_KEY: ${{ secrets.PAGERDUTY_ROUTING_KEY }}
+        run: python backend/monitor_temperature.py
