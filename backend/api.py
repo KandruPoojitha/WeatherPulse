@@ -1,9 +1,11 @@
 """WeatherPulse public API. Small in-process TTL cache reduces provider requests."""
 from datetime import datetime, timezone
+from pathlib import Path
 import logging
 import os
 import time
 from fastapi import FastAPI, HTTPException, Query
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from weather_client import DEFAULT_CITY, fetch_weather, geocode
 
@@ -80,3 +82,15 @@ def weather(lat: float = Query(DEFAULT_CITY['latitude'], ge=-90, le=90),
     except Exception as exc:
         logging.exception('Weather lookup failed')
         raise HTTPException(502, 'Weather data is temporarily unavailable') from exc
+
+
+# Serve the production React build from the SAME FastAPI web service.
+# The API routes above are registered first and remain available at /api/*.
+# In local development, Vite still serves the React app on port 5173.
+FRONTEND_DIST = Path(__file__).resolve().parent.parent / 'frontend' / 'dist'
+if FRONTEND_DIST.joinpath('index.html').is_file():
+    app.mount('/', StaticFiles(directory=str(FRONTEND_DIST), html=True), name='frontend')
+else:
+    @app.get('/')
+    def local_backend_info():
+        return {'message': 'WeatherPulse API is running. Start the React dev server or build the frontend to serve the dashboard here.'}

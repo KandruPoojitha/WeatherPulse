@@ -1,0 +1,11 @@
+**/node_modules
+**/dist
+**/__pycache__
+**/.venv
+**/.env
+**/.env.*
+.git
+.vscode
+*.log
+local.settings.json
+__azurite_*
