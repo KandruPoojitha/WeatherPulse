@@ -7,3 +7,6 @@ opentelemetry-distro
 opentelemetry-exporter-otlp-proto-http
 opentelemetry-instrumentation-fastapi
 opentelemetry-instrumentation-urllib
+
+opentelemetry-sdk
+opentelemetry-exporter-otlp-proto-http
